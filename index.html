@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنجاز | ENGAZ - نظام محاسبي ERP وإدارة أعمال متكامل</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="إنجاز ENGAZ هو نظام محاسبي ERP سحابي متكامل للأنشطة التجارية والخدمية والتقسيط في مصر. إدارة المبيعات، المشتريات، المخزون، والحسابات باحترافية.">
+    
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                    },
+                    colors: {
+                        // Using a professional, trustworthy SaaS palette based on typical deep blues/teals
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9', // Primary Accent
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e', // Dark Primary
+                            950: '#082f49',
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 40px -10px rgba(0,0,0,0.08)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles for subtle animations and overrides */
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Accordion Transitions */
+        .accordion-content {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        
+        .accordion-content.open {
+            max-height: 500px; /* arbitrary large number */
+            opacity: 1;
+        }
+
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+        
+        .accordion-btn[aria-expanded="true"] .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Toast Notification */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 12px;
+            position: fixed;
+            z-index: 50;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 14px;
+            transition: visibility 0s, opacity 0.5s linear;
+            opacity: 0;
+        }
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-500 selection:text-white relative">
+
+    <!-- Toast Notification -->
+    <div id="toast"><i class="fas fa-check-circle mr-2 text-green-400"></i> تم النسخ بنجاح!</div>
+
+    <!-- Header / Navbar (Sticky) -->
+    <header class="fixed top-0 w-full z-40 glass-nav transition-all duration-300">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-3 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <img src="https://i.postimg.cc/nLYdWfJs/Whats-App-Image-2026-02-23-at-12-19-48-AM.jpg" alt="ENGAZ Logo" class="h-12 w-auto rounded shadow-sm">
+                    <span class="font-bold text-2xl text-brand-900 tracking-tight">إنجاز <span class="text-brand-500 font-normal">| ENGAZ</span></span>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden lg:flex space-x-8 space-x-reverse">
+                    <a href="#home" class="text-gray-600 hover:text-brand-600 font-semibold transition-colors">الرئيسية</a>
+                    <a href="#about" class="text-gray-600 hover:text-brand-600 font-semibold transition-colors">لماذا إنجاز؟</a>
+                    <a href="#modules" class="text-gray-600 hover:text-brand-600 font-semibold transition-colors">الموديولات</a>
+                    <a href="#screenshots" class="text-gray-600 hover:text-brand-600 font-semibold transition-colors">لقطات من النظام</a>
+                    <a href="#pricing" class="text-gray-600 hover:text-brand-600 font-semibold transition-colors">الاشتراكات</a>
+                    <a href="#support" class="text-gray-600 hover:text-brand-600 font-semibold transition-colors">الدعم</a>
+                    <a href="#contact" class="text-gray-600 hover:text-brand-600 font-semibold transition-colors">تواصل معنا</a>
+                </nav>
+
+                <!-- CTA & Mobile Toggle -->
+                <div class="flex items-center gap-4">
+                    <a href="https://www.engaz-erp.site" target="_blank" class="hidden md:inline-flex items-center justify-center px-6 py-2.5 border border-transparent text-sm font-bold rounded-lg text-white bg-brand-600 hover:bg-brand-700 shadow-md hover:shadow-lg transition-all">
+                        جرّب الآن مجانًا
+                    </a>
+                    
+                    <!-- Mobile menu button -->
+                    <button id="mobile-menu-btn" class="lg:hidden text-gray-600 hover:text-brand-600 focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg">
+            <div class="px-4 pt-2 pb-6 space-y-1">
+                <a href="#home" class="mobile-link block px-3 py-3 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">الرئيسية</a>
+                <a href="#about" class="mobile-link block px-3 py-3 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">لماذا إنجاز؟</a>
+                <a href="#modules" class="mobile-link block px-3 py-3 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">الموديولات</a>
+                <a href="#screenshots" class="mobile-link block px-3 py-3 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">لقطات من النظام</a>
+                <a href="#pricing" class="mobile-link block px-3 py-3 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">الاشتراكات</a>
+                <a href="#support" class="mobile-link block px-3 py-3 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">الدعم</a>
+                <a href="#contact" class="mobile-link block px-3 py-3 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">تواصل معنا</a>
+                <a href="https://www.engaz-erp.site" target="_blank" class="block w-full text-center mt-4 px-6 py-3 border border-transparent text-base font-bold rounded-lg text-white bg-brand-600 hover:bg-brand-700 shadow-md">
+                    جرّب الآن مجانًا
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+        <!-- Background decorations with Accounting/Reports Image -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2000&auto=format&fit=crop" alt="Accounting & Reports Background" class="w-full h-full object-cover opacity-60">
+            <div class="absolute inset-0 bg-gradient-to-l from-white/95 via-white/80 to-brand-100/40 backdrop-blur-[1px]"></div>
+        </div>
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-brand-100 opacity-50 blur-3xl z-0"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-blue-100 opacity-50 blur-3xl z-0"></div>
+
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-8">
+                
+                <!-- Hero Content (Right in RTL) -->
+                <div class="w-full lg:w-1/2 flex flex-col items-start fade-up">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-sm font-bold mb-6 border border-brand-100">
+                        <span class="relative flex h-3 w-3">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-3 w-3 bg-brand-500"></span>
+                        </span>
+                        الإصدار السحابي الأحدث
+                    </div>
+                    
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 leading-tight mb-6">
+                        إنجاز | ENGAZ <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-l from-brand-600 to-blue-400">نظام محاسبي ERP</span><br>
+                        وإدارة أعمال متكامل
+                    </h1>
+                    
+                    <p class="text-xl text-gray-700 font-semibold mb-4 border-r-4 border-brand-500 pr-4">
+                        حل شامل لإدارة شركتك باحترافية — من أول الفاتورة لحد التقارير المالية النهائية.
+                    </p>
+                    
+                    <p class="text-lg text-gray-600 mb-8 leading-relaxed max-w-2xl">
+                        إدارة المبيعات، المشتريات، المخزون، المحاسبة، الموارد البشرية، الخدمات، التقسيط، ونقاط البيع… كل ده في نظام سحابي واحد سهل وآمن.
+                    </p>
+
+                    <!-- Badges -->
+                    <div class="flex flex-wrap gap-3 mb-10">
+                        <div class="flex items-center gap-2 bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-100">
+                            <i class="fas fa-bullseye text-brand-500"></i>
+                            <span class="font-bold text-sm">مناسب للشركات التجارية</span>
+                        </div>
+                        <div class="flex items-center gap-2 bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-100">
+                            <i class="fas fa-bullseye text-brand-500"></i>
+                            <span class="font-bold text-sm">مناسب للأنشطة الخدمية</span>
+                        </div>
+                        <div class="flex items-center gap-2 bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-100">
+                            <i class="fas fa-bullseye text-brand-500"></i>
+                            <span class="font-bold text-sm">مناسب لنظام التقسيط</span>
+                        </div>
+                    </div>
+
+                    <!-- CTAs & Credentials -->
+                    <div class="w-full">
+                        <div class="flex flex-col sm:flex-row gap-4 mb-6">
+                            <a href="https://www.youtube.com/@engaz-2026" target="_blank" class="flex items-center justify-center gap-2 px-8 py-4 bg-brand-600 hover:bg-brand-700 text-white rounded-xl font-bold text-lg shadow-lg hover:shadow-brand-500/30 transition-all transform hover:-translate-y-1">
+                                <i class="fas fa-play-circle text-xl"></i>
+                                شاهد فيديو توضيحي
+                            </a>
+                            <a href="https://www.engaz-erp.site" target="_blank" class="flex items-center justify-center gap-2 px-8 py-4 bg-white hover:bg-gray-50 text-gray-900 border-2 border-gray-200 hover:border-brand-300 rounded-xl font-bold text-lg shadow-sm transition-all transform hover:-translate-y-1">
+                                جرّب الآن التجربة المجانية
+                            </a>
+                        </div>
+
+                        <!-- Credentials Box -->
+                        <div class="bg-blue-50 border border-blue-100 rounded-xl p-4 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 w-fit shadow-sm">
+                            <div class="font-bold text-brand-800 text-sm whitespace-nowrap">
+                                <i class="fas fa-key text-brand-500 ml-1"></i> بيانات دخول تجريبية:
+                            </div>
+                            <div class="flex items-center gap-4 text-sm bg-white px-3 py-1.5 rounded-lg border border-blue-100">
+                                <span class="text-gray-500 font-semibold">الكود:</span>
+                                <span class="font-bold font-mono text-gray-800 tracking-wider">admin</span>
+                                <button onclick="copyToClipboard('admin')" class="text-gray-400 hover:text-brand-600 transition" title="نسخ الكود">
+                                    <i class="far fa-copy"></i>
+                                </button>
+                            </div>
+                            <div class="flex items-center gap-4 text-sm bg-white px-3 py-1.5 rounded-lg border border-blue-100">
+                                <span class="text-gray-500 font-semibold">الباس:</span>
+                                <span class="font-bold font-mono text-gray-800 tracking-wider">123</span>
+                                <button onclick="copyToClipboard('123')" class="text-gray-400 hover:text-brand-600 transition" title="نسخ الباسورد">
+                                    <i class="far fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Visual (Left in RTL) -->
+                <div class="w-full lg:w-1/2 fade-up relative" style="transition-delay: 0.2s;">
+                    <!-- Decorative background behind mockup -->
+                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-100 to-white rounded-3xl transform rotate-3 scale-105 opacity-50 z-0"></div>
+                    
+                    <!-- Main Dashboard Mockup -->
+                    <div class="relative z-10 bg-white rounded-2xl shadow-soft border border-gray-100 overflow-hidden group">
+                        <!-- Browser Header -->
+                        <div class="bg-gray-100 px-4 py-3 flex items-center gap-2 border-b border-gray-200">
+                            <div class="flex gap-1.5">
+                                <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-400"></div>
+                            </div>
+                            <div class="bg-white rounded-md text-xs text-gray-400 px-3 py-1 mx-auto flex-1 max-w-[200px] text-center font-mono truncate">
+                                engaz-erp.site/dashboard
+                            </div>
+                        </div>
+                        <!-- Dashboard UI Image -->
+                        <div class="bg-gray-50 border-b border-gray-200">
+                            <img src="https://i.postimg.cc/HxTckZsP/Whats-App-Image-2026-02-23-at-2-12-44-AM.jpg" alt="لوحة القيادة" class="w-full h-auto object-cover object-top max-h-[400px]">
+                        </div>
+                        
+                        <!-- Play Overlay -->
+                        <div class="absolute inset-0 bg-gray-900/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[1px]">
+                            <a href="https://www.youtube.com/@engaz-2026" target="_blank" class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-2xl text-brand-600 transform scale-90 group-hover:scale-100 transition-transform">
+                                <i class="fas fa-play text-3xl ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: من نحن -->
+    <section id="about" class="py-20 bg-white border-y border-gray-100">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto text-center fade-up">
+                <h2 class="text-sm font-bold text-brand-500 tracking-wider mb-2">عن النظام</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-gray-900 mb-10">من نحن؟</h3>
+                
+                <div class="bg-gray-50 rounded-2xl p-8 md:p-12 shadow-inner text-right leading-relaxed text-gray-700 text-lg space-y-6">
+                    <p>
+                        <strong class="text-gray-900 text-xl">نحن فريق متخصص</strong> في تطوير أنظمة إدارة الأعمال والحلول المحاسبية السحابية. أسسنا إنجاز بهدف تقديم نظام عملي يجمع بين البساطة والقوة المحاسبية، ليساعد أصحاب الشركات على إدارة أعمالهم بدقة واحترافية.
+                    </p>
+                    <p>
+                        النظام من تطوير <strong class="text-brand-600">شركة ويب ماكس للتكنولوجيا والتسويق الإلكتروني</strong>، وهي المالك والمنفذ الرسمي للنظام، والمسؤولة عن التطوير والدعم الفني والتحديثات المستمرة.
+                    </p>
+                    <p>
+                        نؤمن أن نجاح أي نشاط يعتمد على التنظيم والوضوح المالي، لذلك صممنا نظام يربط جميع أقسام الشركة في منظومة واحدة مترابطة تساعد على اتخاذ قرارات صحيحة مبنية على بيانات حقيقية.
+                    </p>
+                    <div class="pt-6 border-t border-gray-200 text-center">
+                        <p class="text-2xl font-bold text-gray-900">
+                            إنجاز ليس مجرد برنامج… <br>
+                            <span class="text-brand-600">إنجاز هو شريك نجاح لنمو أعمالك.</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Trust Mini-block -->
+                <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-6">
+                    <div class="flex items-center gap-3 bg-white px-6 py-3 rounded-xl shadow border border-gray-100">
+                        <i class="fas fa-file-contract text-gray-400 text-xl"></i>
+                        <div class="text-right">
+                            <div class="text-xs text-gray-500 font-semibold">السجل التجاري</div>
+                            <div class="font-bold text-gray-900 font-mono">8607</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 bg-white px-6 py-3 rounded-xl shadow border border-gray-100">
+                        <i class="fas fa-file-invoice-dollar text-gray-400 text-xl"></i>
+                        <div class="text-right">
+                            <div class="text-xs text-gray-500 font-semibold">رقم التسجيل الضريبي</div>
+                            <div class="font-bold text-gray-900 font-mono">778319636</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: لماذا تختار إنجاز؟ -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 fade-up">
+                <h2 class="text-sm font-bold text-brand-500 tracking-wider mb-2">المميزات</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-gray-900">لماذا تختار إنجاز؟</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature Cards -->
+                <div class="bg-white p-6 rounded-2xl shadow-soft border border-gray-100 hover:border-brand-300 transition-colors group fade-up">
+                    <div class="w-14 h-14 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-900 mb-3">نظام سحابي يعمل من أي مكان</h4>
+                    <p class="text-gray-600">ادخل لبياناتك وتابع شغلك في أي وقت ومن أي جهاز متصل بالإنترنت بأمان تام.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-soft border border-gray-100 hover:border-brand-300 transition-colors group fade-up" style="transition-delay: 0.1s;">
+                    <div class="w-14 h-14 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-900 mb-3">ربط كامل بين جميع الأقسام</h4>
+                    <p class="text-gray-600">المبيعات تسمع في المخازن، والمخازن تسمع في الحسابات بشكل آلي لضمان دقة البيانات.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-soft border border-gray-100 hover:border-brand-300 transition-colors group fade-up" style="transition-delay: 0.2s;">
+                    <div class="w-14 h-14 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-900 mb-3">تقارير مالية دقيقة وفورية</h4>
+                    <p class="text-gray-600">ميزان مراجعة، قائمة دخل، وتقارير أرباح بضغطة زر لمساعدتك في اتخاذ القرار.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-soft border border-gray-100 hover:border-brand-300 transition-colors group fade-up" style="transition-delay: 0.3s;">
+                    <div class="w-14 h-14 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-900 mb-3">مناسب للتجاري والخدمي</h4>
+                    <p class="text-gray-600">مرونة كاملة لإدارة بيع المنتجات الملموسة أو تقديم الخدمات الاستشارية والمهنية.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-soft border border-gray-100 hover:border-brand-300 transition-colors group fade-up" style="transition-delay: 0.4s;">
+                    <div class="w-14 h-14 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-900 mb-3">نظام تقسيط متكامل</h4>
+                    <p class="text-gray-600">إدارة العقود، جدولة الدفعات، متابعة التحصيل وتنبيهات بمواعيد الاستحقاق.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-soft border border-gray-100 hover:border-brand-300 transition-colors group fade-up" style="transition-delay: 0.5s;">
+                    <div class="w-14 h-14 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-900 mb-3">تطبيق موبايل لمتابعة شغلك</h4>
+                    <p class="text-gray-600">تطبيق خاص لمتابعة المبيعات والتقارير لحظة بلحظة من تليفونك بسهولة.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: الموديولات الكاملة للنظام (Accordion) -->
+    <section id="modules" class="py-20 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
+            <div class="text-center mb-16 fade-up">
+                <h2 class="text-sm font-bold text-brand-500 tracking-wider mb-2">إمكانيات غير محدودة</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-gray-900">الموديولات الكاملة للنظام</h3>
+                <p class="mt-4 text-gray-600 max-w-2xl mx-auto">كل ما تحتاجه لإدارة شركتك متوفر في مكان واحد. اكتشف الأقسام الرئيسية لنظام إنجاز.</p>
+            </div>
+
+            <div class="space-y-4 fade-up">
+                <!-- Module 1 -->
+                <div class="border border-gray-200 rounded-xl overflow-hidden bg-white hover:border-brand-300 transition-colors">
+                    <button class="accordion-btn w-full px-6 py-5 text-right flex justify-between items-center bg-gray-50 hover:bg-brand-50 focus:outline-none" aria-expanded="false" onclick="toggleAccordion(this)">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-white text-brand-600 flex items-center justify-center shadow-sm border border-gray-100">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <span class="text-xl font-bold text-gray-900">1. المبيعات</span>
+                        </div>
+                        <i class="fas fa-chevron-down text-gray-400 accordion-icon"></i>
+                    </button>
+                    <div class="accordion-content bg-white">
+                        <div class="px-6 py-5 pb-6 lg:px-20">
+                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700 font-medium">
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> فواتير بيع</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> عروض أسعار</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> إدارة العملاء</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> تقارير أرباح ومبيعات تفصيلية</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Module 2 -->
+                <div class="border border-gray-200 rounded-xl overflow-hidden bg-white hover:border-brand-300 transition-colors">
+                    <button class="accordion-btn w-full px-6 py-5 text-right flex justify-between items-center bg-gray-50 hover:bg-brand-50 focus:outline-none" aria-expanded="false" onclick="toggleAccordion(this)">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-white text-brand-600 flex items-center justify-center shadow-sm border border-gray-100">
+                                <i class="fas fa-truck-loading"></i>
+                            </div>
+                            <span class="text-xl font-bold text-gray-900">2. المشتريات</span>
+                        </div>
+                        <i class="fas fa-chevron-down text-gray-400 accordion-icon"></i>
+                    </button>
+                    <div class="accordion-content bg-white">
+                        <div class="px-6 py-5 pb-6 lg:px-20">
+                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700 font-medium">
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> فواتير شراء</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> إدارة الموردين</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> تقارير تكلفة الموردين</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Module 3 -->
+                <div class="border border-gray-200 rounded-xl overflow-hidden bg-white hover:border-brand-300 transition-colors">
+                    <button class="accordion-btn w-full px-6 py-5 text-right flex justify-between items-center bg-gray-50 hover:bg-brand-50 focus:outline-none" aria-expanded="false" onclick="toggleAccordion(this)">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-white text-brand-600 flex items-center justify-center shadow-sm border border-gray-100">
+                                <i class="fas fa-boxes"></i>
+                            </div>
+                            <span class="text-xl font-bold text-gray-900">3. المخزون</span>
+                        </div>
+                        <i class="fas fa-chevron-down text-gray-400 accordion-icon"></i>
+                    </button>
+                    <div class="accordion-content bg-white">
+                        <div class="px-6 py-5 pb-6 lg:px-20">
+                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700 font-medium">
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> إدارة الأصناف</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> تتبع الكميات</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> تنبيهات نقص المخزون</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> تقارير حركة الأصناف</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Module 4 -->
+                <div class="border border-gray-200 rounded-xl overflow-hidden bg-white hover:border-brand-300 transition-colors">
+                    <button class="accordion-btn w-full px-6 py-5 text-right flex justify-between items-center bg-gray-50 hover:bg-brand-50 focus:outline-none" aria-expanded="false" onclick="toggleAccordion(this)">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-white text-brand-600 flex items-center justify-center shadow-sm border border-gray-100">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <span class="text-xl font-bold text-gray-900">4. المحاسبة المتكاملة</span>
+                        </div>
+                        <i class="fas fa-chevron-down text-gray-400 accordion-icon"></i>
+                    </button>
+                    <div class="accordion-content bg-white">
+                        <div class="px-6 py-5 pb-6 lg:px-20">
+                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700 font-medium">
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> دليل محاسبي مرن قابل للتخصيص</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> قيود يومية تلقائية ويدوية</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> دفتر الأستاذ</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> ميزان مراجعة</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> قائمة دخل</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> شجرة الحسابات</li>
+                                <li class="flex items-center gap-2 col-span-1 md:col-span-2"><i class="fas fa-check text-brand-500 text-sm"></i> تقارير مالية تفصيلية دقيقة</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Module 5 -->
+                <div class="border border-gray-200 rounded-xl overflow-hidden bg-white hover:border-brand-300 transition-colors">
+                    <button class="accordion-btn w-full px-6 py-5 text-right flex justify-between items-center bg-gray-50 hover:bg-brand-50 focus:outline-none" aria-expanded="false" onclick="toggleAccordion(this)">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-white text-brand-600 flex items-center justify-center shadow-sm border border-gray-100">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <span class="text-xl font-bold text-gray-900">5. الموارد البشرية</span>
+                        </div>
+                        <i class="fas fa-chevron-down text-gray-400 accordion-icon"></i>
+                    </button>
+                    <div class="accordion-content bg-white">
+                        <div class="px-6 py-5 pb-6 lg:px-20">
+                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700 font-medium">
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> إدارة الموظفين</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> احتساب الرواتب</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> تقارير الرواتب والاستقطاعات</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Module 6 -->
+                <div class="border border-gray-200 rounded-xl overflow-hidden bg-white hover:border-brand-300 transition-colors">
+                    <button class="accordion-btn w-full px-6 py-5 text-right flex justify-between items-center bg-gray-50 hover:bg-brand-50 focus:outline-none" aria-expanded="false" onclick="toggleAccordion(this)">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-white text-brand-600 flex items-center justify-center shadow-sm border border-gray-100">
+                                <i class="fas fa-concierge-bell"></i>
+                            </div>
+                            <span class="text-xl font-bold text-gray-900">6. موديول الأنشطة الخدمية</span>
+                        </div>
+                        <i class="fas fa-chevron-down text-gray-400 accordion-icon"></i>
+                    </button>
+                    <div class="accordion-content bg-white">
+                        <div class="px-6 py-5 pb-6 lg:px-20">
+                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700 font-medium">
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> تسجيل الخدمات المقدمة</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> متابعة تنفيذ الخدمات</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> فواتير خدمات</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> تقارير أداء الخدمات</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Module 7 -->
+                <div class="border border-gray-200 rounded-xl overflow-hidden bg-white hover:border-brand-300 transition-colors">
+                    <button class="accordion-btn w-full px-6 py-5 text-right flex justify-between items-center bg-gray-50 hover:bg-brand-50 focus:outline-none" aria-expanded="false" onclick="toggleAccordion(this)">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-white text-brand-600 flex items-center justify-center shadow-sm border border-gray-100">
+                                <i class="fas fa-hand-holding-usd"></i>
+                            </div>
+                            <span class="text-xl font-bold text-gray-900">7. نظام التقسيط</span>
+                        </div>
+                        <i class="fas fa-chevron-down text-gray-400 accordion-icon"></i>
+                    </button>
+                    <div class="accordion-content bg-white">
+                        <div class="px-6 py-5 pb-6 lg:px-20">
+                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700 font-medium">
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> تسجيل عقود التقسيط</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> جدولة الأقساط</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> متابعة التحصيل</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> تقارير المتأخرات</li>
+                                <li class="flex items-center gap-2 col-span-1 md:col-span-2"><i class="fas fa-check text-brand-500 text-sm"></i> إشعارات استحقاق الأقساط</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Module 8 -->
+                <div class="border border-gray-200 rounded-xl overflow-hidden bg-white hover:border-brand-300 transition-colors">
+                    <button class="accordion-btn w-full px-6 py-5 text-right flex justify-between items-center bg-gray-50 hover:bg-brand-50 focus:outline-none" aria-expanded="false" onclick="toggleAccordion(this)">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-white text-brand-600 flex items-center justify-center shadow-sm border border-gray-100">
+                                <i class="fas fa-cash-register"></i>
+                            </div>
+                            <span class="text-xl font-bold text-gray-900">8. نقاط البيع (POS)</span>
+                        </div>
+                        <i class="fas fa-chevron-down text-gray-400 accordion-icon"></i>
+                    </button>
+                    <div class="accordion-content bg-white">
+                        <div class="px-6 py-5 pb-6 lg:px-20">
+                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700 font-medium">
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> واجهة كاشير سريعة</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> طباعة فواتير</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> ربط مباشر بالمخزون</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> تقارير مبيعات يومية</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Module 9 -->
+                <div class="border border-gray-200 rounded-xl overflow-hidden bg-white hover:border-brand-300 transition-colors">
+                    <button class="accordion-btn w-full px-6 py-5 text-right flex justify-between items-center bg-gray-50 hover:bg-brand-50 focus:outline-none" aria-expanded="false" onclick="toggleAccordion(this)">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-white text-brand-600 flex items-center justify-center shadow-sm border border-gray-100">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <span class="text-xl font-bold text-gray-900">9. تطبيق الموبايل</span>
+                        </div>
+                        <i class="fas fa-chevron-down text-gray-400 accordion-icon"></i>
+                    </button>
+                    <div class="accordion-content bg-white">
+                        <div class="px-6 py-5 pb-6 lg:px-20">
+                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700 font-medium">
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> متابعة المبيعات لحظيًا</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> متابعة التحصيل</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> الاطلاع على التقارير</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-sm"></i> إدارة أعمالك من أي مكان بسهولة</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: لقطات من النظام -->
+    <section id="screenshots" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 fade-up">
+                <h2 class="text-sm font-bold text-brand-500 tracking-wider mb-2">واجهة عصرية</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-gray-900">لقطات من النظام</h3>
+            </div>
+
+            <!-- Image Grid Placeholders -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 fade-up">
+                
+                <!-- Tile 1 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group">
+                    <div class="h-56 bg-gray-100 flex items-center justify-center relative overflow-hidden">
+                        <img src="https://i.postimg.cc/HxTckZsP/Whats-App-Image-2026-02-23-at-2-12-44-AM.jpg" alt="لوحة القيادة" class="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-brand-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                            <a href="https://i.postimg.cc/HxTckZsP/Whats-App-Image-2026-02-23-at-2-12-44-AM.jpg" target="_blank" class="bg-white text-brand-600 px-4 py-2 rounded-lg font-bold shadow-sm hover:bg-brand-50 transition-colors">تكبير الصورة</a>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-gray-100 text-center font-bold text-gray-800">لوحة القيادة</div>
+                </div>
+
+                <!-- Tile 2 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group">
+                    <div class="h-56 bg-gray-100 flex items-center justify-center relative overflow-hidden">
+                        <img src="https://i.postimg.cc/CLRZ5fSs/Whats-App-Image-2026-02-23-at-2-12-53-AM.jpg" alt="نقاط البيع" class="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-brand-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                            <a href="https://i.postimg.cc/CLRZ5fSs/Whats-App-Image-2026-02-23-at-2-12-53-AM.jpg" target="_blank" class="bg-white text-brand-600 px-4 py-2 rounded-lg font-bold shadow-sm hover:bg-brand-50 transition-colors">تكبير الصورة</a>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-gray-100 text-center font-bold text-gray-800">نقاط البيع</div>
+                </div>
+
+                <!-- Tile 3 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group">
+                    <div class="h-56 bg-gray-100 flex items-center justify-center relative overflow-hidden">
+                        <img src="https://i.postimg.cc/bv9rWxH7/Whats-App-Image-2026-02-23-at-2-12-54-AM.jpg" alt="فاتورة المبيعات" class="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-brand-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                            <a href="https://i.postimg.cc/bv9rWxH7/Whats-App-Image-2026-02-23-at-2-12-54-AM.jpg" target="_blank" class="bg-white text-brand-600 px-4 py-2 rounded-lg font-bold shadow-sm hover:bg-brand-50 transition-colors">تكبير الصورة</a>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-gray-100 text-center font-bold text-gray-800">فاتورة المبيعات</div>
+                </div>
+
+                <!-- Tile 4 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group">
+                    <div class="h-56 bg-gray-100 flex items-center justify-center relative overflow-hidden">
+                        <img src="https://i.postimg.cc/QCHMFRGs/Whats-App-Image-2026-02-23-at-2-12-55-AM.jpg" alt="فاتورة المشتريات" class="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-brand-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                            <a href="https://i.postimg.cc/QCHMFRGs/Whats-App-Image-2026-02-23-at-2-12-55-AM.jpg" target="_blank" class="bg-white text-brand-600 px-4 py-2 rounded-lg font-bold shadow-sm hover:bg-brand-50 transition-colors">تكبير الصورة</a>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-gray-100 text-center font-bold text-gray-800">فاتورة المشتريات</div>
+                </div>
+
+                <!-- Tile 5 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group">
+                    <div class="h-56 bg-gray-100 flex items-center justify-center relative overflow-hidden">
+                        <img src="https://i.postimg.cc/mZ5Dv2CF/Whats-App-Image-2026-02-23-at-2-12-55-AM-(1).jpg" alt="مديول الأنشطة الخدمية" class="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-brand-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                            <a href="https://i.postimg.cc/mZ5Dv2CF/Whats-App-Image-2026-02-23-at-2-12-55-AM-(1).jpg" target="_blank" class="bg-white text-brand-600 px-4 py-2 rounded-lg font-bold shadow-sm hover:bg-brand-50 transition-colors">تكبير الصورة</a>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-gray-100 text-center font-bold text-gray-800">مديول الأنشطة الخدمية</div>
+                </div>
+
+                <!-- Tile 6 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group">
+                    <div class="h-56 bg-gray-100 flex items-center justify-center relative overflow-hidden">
+                        <img src="https://i.postimg.cc/0NP2Y6RW/Whats-App-Image-2026-02-23-at-2-12-56-AM.jpg" alt="إدارة المخزون" class="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-brand-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                            <a href="https://i.postimg.cc/0NP2Y6RW/Whats-App-Image-2026-02-23-at-2-12-56-AM.jpg" target="_blank" class="bg-white text-brand-600 px-4 py-2 rounded-lg font-bold shadow-sm hover:bg-brand-50 transition-colors">تكبير الصورة</a>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-gray-100 text-center font-bold text-gray-800">إدارة المخزون</div>
+                </div>
+
+                <!-- Tile 7 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group">
+                    <div class="h-56 bg-gray-100 flex items-center justify-center relative overflow-hidden">
+                        <img src="https://i.postimg.cc/Y9yrBb4F/Whats-App-Image-2026-02-23-at-2-12-56-AM-(1).jpg" alt="إدارة التقسيط" class="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-brand-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                            <a href="https://i.postimg.cc/Y9yrBb4F/Whats-App-Image-2026-02-23-at-2-12-56-AM-(1).jpg" target="_blank" class="bg-white text-brand-600 px-4 py-2 rounded-lg font-bold shadow-sm hover:bg-brand-50 transition-colors">تكبير الصورة</a>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-gray-100 text-center font-bold text-gray-800">إدارة التقسيط</div>
+                </div>
+
+                <!-- Tile 8 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group">
+                    <div class="h-56 bg-gray-100 flex items-center justify-center relative overflow-hidden">
+                        <img src="https://i.postimg.cc/m29bK3T1/Whats-App-Image-2026-02-23-at-2-12-57-AM.jpg" alt="الموارد البشرية" class="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-brand-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                            <a href="https://i.postimg.cc/m29bK3T1/Whats-App-Image-2026-02-23-at-2-12-57-AM.jpg" target="_blank" class="bg-white text-brand-600 px-4 py-2 rounded-lg font-bold shadow-sm hover:bg-brand-50 transition-colors">تكبير الصورة</a>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-gray-100 text-center font-bold text-gray-800">الموارد البشرية</div>
+                </div>
+
+                <!-- Tile 9 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group">
+                    <div class="h-56 bg-gray-100 flex items-center justify-center relative overflow-hidden">
+                        <img src="https://i.postimg.cc/Xvj4ZTd8/Whats-App-Image-2026-02-23-at-2-12-59-AM.jpg" alt="القيود اليوميه" class="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-brand-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                            <a href="https://i.postimg.cc/Xvj4ZTd8/Whats-App-Image-2026-02-23-at-2-12-59-AM.jpg" target="_blank" class="bg-white text-brand-600 px-4 py-2 rounded-lg font-bold shadow-sm hover:bg-brand-50 transition-colors">تكبير الصورة</a>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-gray-100 text-center font-bold text-gray-800">القيود اليوميه</div>
+                </div>
+
+                <!-- Tile 10 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group">
+                    <div class="h-56 bg-gray-100 flex items-center justify-center relative overflow-hidden">
+                        <img src="https://i.postimg.cc/MHQS2xJ7/Whats-App-Image-2026-02-23-at-2-12-59-AM-(1).jpg" alt="الدليل المحاسبى" class="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-brand-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                            <a href="https://i.postimg.cc/MHQS2xJ7/Whats-App-Image-2026-02-23-at-2-12-59-AM-(1).jpg" target="_blank" class="bg-white text-brand-600 px-4 py-2 rounded-lg font-bold shadow-sm hover:bg-brand-50 transition-colors">تكبير الصورة</a>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-gray-100 text-center font-bold text-gray-800">الدليل المحاسبى</div>
+                </div>
+
+                <!-- Tile 11 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group">
+                    <div class="h-56 bg-gray-100 flex items-center justify-center relative overflow-hidden">
+                        <img src="https://i.postimg.cc/c1pKKLHz/Whats-App-Image-2026-02-23-at-2-12-59-AM-(2).jpg" alt="قائمة الدخل وميزان المراجعة" class="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-brand-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                            <a href="https://i.postimg.cc/c1pKKLHz/Whats-App-Image-2026-02-23-at-2-12-59-AM-(2).jpg" target="_blank" class="bg-white text-brand-600 px-4 py-2 rounded-lg font-bold shadow-sm hover:bg-brand-50 transition-colors">تكبير الصورة</a>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-gray-100 text-center font-bold text-gray-800">قائمة الدخل وميزان المراجعة</div>
+                </div>
+
+                <!-- Tile 12 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group">
+                    <div class="h-56 bg-gray-100 flex items-center justify-center relative overflow-hidden">
+                        <img src="https://i.postimg.cc/Pq5NGL3n/Whats-App-Image-2026-02-23-at-2-12-59-AM-(3).jpg" alt="تقارير الأرباح والخسائر" class="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-brand-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                            <a href="https://i.postimg.cc/Pq5NGL3n/Whats-App-Image-2026-02-23-at-2-12-59-AM-(3).jpg" target="_blank" class="bg-white text-brand-600 px-4 py-2 rounded-lg font-bold shadow-sm hover:bg-brand-50 transition-colors">تكبير الصورة</a>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-gray-100 text-center font-bold text-gray-800">تقارير الأرباح والخسائر</div>
+                </div>
+
+                <!-- Tile 13 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group">
+                    <div class="h-56 bg-gray-100 flex items-center justify-center relative overflow-hidden">
+                        <img src="https://i.postimg.cc/MThGj9Wf/Whats-App-Image-2026-02-23-at-2-12-59-AM-(4).jpg" alt="تقارير الإيرادات" class="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-brand-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                            <a href="https://i.postimg.cc/MThGj9Wf/Whats-App-Image-2026-02-23-at-2-12-59-AM-(4).jpg" target="_blank" class="bg-white text-brand-600 px-4 py-2 rounded-lg font-bold shadow-sm hover:bg-brand-50 transition-colors">تكبير الصورة</a>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-gray-100 text-center font-bold text-gray-800">تقارير الإيرادات</div>
+                </div>
+
+                <!-- Tile 14 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group">
+                    <div class="h-56 bg-gray-100 flex items-center justify-center relative overflow-hidden">
+                        <img src="https://i.postimg.cc/L415MFTy/Whats-App-Image-2026-02-23-at-2-12-59-AM-(5).jpg" alt="تقارير المبيعات" class="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-brand-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                            <a href="https://i.postimg.cc/L415MFTy/Whats-App-Image-2026-02-23-at-2-12-59-AM-(5).jpg" target="_blank" class="bg-white text-brand-600 px-4 py-2 rounded-lg font-bold shadow-sm hover:bg-brand-50 transition-colors">تكبير الصورة</a>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-gray-100 text-center font-bold text-gray-800">تقارير المبيعات</div>
+                </div>
+
+                <!-- Tile 15 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group">
+                    <div class="h-56 bg-gray-100 flex items-center justify-center relative overflow-hidden">
+                        <img src="https://i.postimg.cc/GmcmY81Y/Whats-App-Image-2026-02-23-at-2-13-01-AM.jpg" alt="تقارير الخزينة" class="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-brand-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                            <a href="https://i.postimg.cc/GmcmY81Y/Whats-App-Image-2026-02-23-at-2-13-01-AM.jpg" target="_blank" class="bg-white text-brand-600 px-4 py-2 rounded-lg font-bold shadow-sm hover:bg-brand-50 transition-colors">تكبير الصورة</a>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-gray-100 text-center font-bold text-gray-800">تقارير الخزينة</div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-10">
+                <a href="https://www.engaz-erp.site" target="_blank" class="inline-flex items-center gap-2 text-brand-600 font-bold hover:text-brand-800 transition-colors">
+                    سجل الدخول للنظام التجريبي لترى المزيد <i class="fas fa-arrow-left text-sm"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: عملاؤنا وشركاء النجاح -->
+    <section class="py-16 bg-white border-y border-gray-100">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center fade-up">
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">عملاؤنا وشركاء النجاح</h3>
+            <p class="text-gray-600 max-w-2xl mx-auto mb-10">
+                نفخر بثقة العديد من الشركات والأنشطة التجارية والخدمية التي تعتمد على إنجاز في إدارة أعمالها وتحقيق نمو منظم ومستقر.
+            </p>
+            
+            <!-- Logo Grid -->
+            <div class="flex flex-wrap justify-center items-center gap-10 opacity-90 transition-all duration-500">
+                <img src="https://i.postimg.cc/5yxwD9C7/Whats-App-Image-2026-02-23-at-7-53-31-PM.jpg" alt="شريك نجاح" class="h-16 md:h-20 w-auto object-contain hover:scale-110 transition-transform mix-blend-multiply">
+                <img src="https://i.postimg.cc/3NnghMXf/Whats-App-Image-2026-02-23-at-7-53-40-PM.jpg" alt="شريك نجاح" class="h-16 md:h-20 w-auto object-contain hover:scale-110 transition-transform mix-blend-multiply">
+                <img src="https://i.postimg.cc/tJ2hb032/Whats-App-Image-2026-02-23-at-7-53-41-PM.jpg" alt="شريك نجاح" class="h-16 md:h-20 w-auto object-contain hover:scale-110 transition-transform mix-blend-multiply">
+                <img src="https://i.postimg.cc/j2ZzTVHc/Whats-App-Image-2026-02-23-at-7-53-42-PM.jpg" alt="شريك نجاح" class="h-16 md:h-20 w-auto object-contain hover:scale-110 transition-transform mix-blend-multiply">
+                <img src="https://i.postimg.cc/PJ2mHGW6/Whats-App-Image-2026-02-23-at-7-53-42-PM-(1).jpg" alt="شريك نجاح" class="h-16 md:h-20 w-auto object-contain hover:scale-110 transition-transform mix-blend-multiply">
+                <img src="https://i.postimg.cc/HnBQmGwP/Whats-App-Image-2026-02-23-at-7-53-44-PM.jpg" alt="شريك نجاح" class="h-16 md:h-20 w-auto object-contain hover:scale-110 transition-transform mix-blend-multiply">
+                <img src="https://i.postimg.cc/hvp9nFLH/Whats-App-Image-2026-02-23-at-7-53-45-PM.jpg" alt="شريك نجاح" class="h-16 md:h-20 w-auto object-contain hover:scale-110 transition-transform mix-blend-multiply">
+                <img src="https://i.postimg.cc/VvDjwy9y/Whats-App-Image-2026-02-23-at-7-53-46-PM.jpg" alt="شريك نجاح" class="h-16 md:h-20 w-auto object-contain hover:scale-110 transition-transform mix-blend-multiply">
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: الدعم الفني والمحاسبي -->
+    <section id="support" class="py-20 bg-brand-900 text-white relative overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 20px 20px;"></div>
+        
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="w-full lg:w-1/2 fade-up">
+                    <h2 class="text-brand-300 font-bold tracking-wider mb-2">معاك خطوة بخطوة</h2>
+                    <h3 class="text-3xl md:text-4xl font-bold mb-6">الدعم الفني والمحاسبي</h3>
+                    <p class="text-brand-100 text-lg mb-8 leading-relaxed">
+                        نحن لا نقدم نظام فقط… نحن نقدم منظومة دعم كاملة تضمن نجاحك واستفادتك القصوى من إنجاز.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4 bg-white/10 p-4 rounded-xl backdrop-blur-sm border border-white/20">
+                            <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white text-2xl flex-shrink-0 mt-1 shadow-lg">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xl mb-1">دعم فني مباشر</h4>
+                                <p class="text-brand-100 text-sm">بعد الاشتراك تحصل على الانضمام إلى جروب واتساب خاص للدعم الفني المباشر لحل أي مشكلة فوراً والتوجيه السليم.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4 bg-white/10 p-4 rounded-xl backdrop-blur-sm border border-white/20">
+                            <div class="w-12 h-12 bg-brand-500 rounded-full flex items-center justify-center text-white text-2xl flex-shrink-0 mt-1 shadow-lg">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xl mb-1">دعم محاسبي واستشارات</h4>
+                                <p class="text-brand-100 text-sm">جروب دعم محاسبي للشركات التي لا تمتلك محاسب وتحتاج إلى استشارات ومتابعة لتوجيه القيود وتصحيح الحسابات.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="w-full lg:w-1/2 flex justify-center fade-up" style="transition-delay: 0.2s;">
+                    <div class="bg-white text-gray-900 p-8 rounded-2xl shadow-2xl max-w-sm w-full text-center relative">
+                        <div class="absolute -top-6 -right-6 w-20 h-20 bg-yellow-400 rounded-full flex items-center justify-center text-white text-3xl shadow-lg border-4 border-white transform rotate-12">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <i class="fas fa-headset text-5xl text-brand-500 mb-4"></i>
+                        <h4 class="font-bold text-2xl mb-2">تحديثات مستمرة مجانية</h4>
+                        <p class="text-gray-600 mb-6">جميع التحديثات المستقبلية للنظام تضاف لحسابك تلقائياً وبدون أي رسوم إضافية.</p>
+                        <a href="https://wa.me/201279180008" target="_blank" class="block w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-lg transition-colors">
+                            تواصل مع الدعم الآن
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: الاشتراكات -->
+    <section id="pricing" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 fade-up">
+                <h2 class="text-sm font-bold text-brand-500 tracking-wider mb-2">أسعار شفافة ومناسبة</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-gray-900">خطط الاشتراكات</h3>
+            </div>
+
+            <div class="flex flex-col md:flex-row justify-center items-center gap-8 max-w-4xl mx-auto fade-up">
+                
+                <!-- Monthly Plan -->
+                <div class="w-full md:w-1/2 bg-white rounded-2xl shadow-md border border-gray-200 p-8 hover:shadow-xl transition-shadow relative">
+                    <h4 class="text-2xl font-bold text-gray-900 text-center mb-2">الاشتراك الشهري</h4>
+                    <div class="text-center mb-6">
+                        <span class="text-5xl font-black text-brand-600">480</span>
+                        <span class="text-gray-500 font-bold">جنيه / شهرياً</span>
+                    </div>
+                    <ul class="space-y-4 mb-8 text-gray-700">
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-green-500"></i> يشمل جميع الموديولات</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-green-500"></i> تحديثات مستمرة مجانية</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-green-500"></i> دعم فني ومحاسبي</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-green-500"></i> نسخة احتياطية يومية</li>
+                    </ul>
+                    <a href="https://www.engaz-erp.site" target="_blank" class="block w-full py-3 px-4 bg-white border-2 border-brand-500 text-brand-600 hover:bg-brand-50 text-center font-bold rounded-xl transition-colors">
+                        اطلب عرض توضيحي
+                    </a>
+                </div>
+
+                <!-- Yearly Plan (Highlighted) -->
+                <div class="w-full md:w-1/2 bg-brand-600 rounded-2xl shadow-xl border border-brand-500 p-8 transform md:-translate-y-4 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-bl-lg">الأكثر توفيراً</div>
+                    <h4 class="text-2xl font-bold text-white text-center mb-2">الاشتراك السنوي</h4>
+                    <div class="text-center mb-6">
+                        <span class="text-5xl font-black text-white">4800</span>
+                        <span class="text-brand-100 font-bold">جنيه / سنوياً</span>
+                    </div>
+                    <ul class="space-y-4 mb-8 text-white">
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-yellow-400"></i> يشمل جميع الموديولات</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-yellow-400"></i> تحديثات مستمرة مجانية</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-yellow-400"></i> دعم فني ومحاسبي</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-yellow-400"></i> <strong>شهرين مجاناً</strong> (توفير 960 ج)</li>
+                    </ul>
+                    <a href="https://www.engaz-erp.site" target="_blank" class="block w-full py-3 px-4 bg-yellow-400 hover:bg-yellow-500 text-yellow-900 text-center font-bold rounded-xl transition-colors shadow-lg">
+                        جرّب الآن مجانًا
+                    </a>
+                </div>
+
+            </div>
+            
+            <p class="text-center text-gray-500 mt-8 text-sm fade-up">
+                * يشمل الاشتراك جميع الموديولات المذكورة بدون أي رسوم خفية.
+            </p>
+        </div>
+    </section>
+
+    <!-- SECTION: رسالتنا / رؤيتنا -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 fade-up">
+                <!-- Mission -->
+                <div class="bg-gray-50 p-8 rounded-2xl border border-gray-100 relative overflow-hidden group hover:shadow-md transition-shadow">
+                    <div class="absolute -right-10 -top-10 text-9xl text-gray-200/50 group-hover:text-brand-100 transition-colors z-0">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <div class="w-12 h-12 bg-brand-100 text-brand-600 rounded-lg flex items-center justify-center text-2xl mb-6">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold text-gray-900 mb-4">رسالتنا</h4>
+                        <p class="text-gray-700 leading-relaxed">
+                            نسعى إلى تمكين أصحاب الأعمال من إدارة شركاتهم بكفاءة واحترافية من خلال نظام سحابي متكامل يجمع بين سهولة الاستخدام والدقة المحاسبية، لمساعدتهم على اتخاذ قرارات صحيحة مبنية على بيانات واضحة.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Vision -->
+                <div class="bg-gray-50 p-8 rounded-2xl border border-gray-100 relative overflow-hidden group hover:shadow-md transition-shadow">
+                    <div class="absolute -left-10 -top-10 text-9xl text-gray-200/50 group-hover:text-brand-100 transition-colors z-0">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <div class="w-12 h-12 bg-brand-100 text-brand-600 rounded-lg flex items-center justify-center text-2xl mb-6">
+                            <i class="fas fa-globe-africa"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold text-gray-900 mb-4">رؤيتنا</h4>
+                        <p class="text-gray-700 leading-relaxed">
+                            أن نكون من الرواد في تقديم أنظمة إدارة الأعمال في السوق العربي، وأن نصبح الشريك التقني الأول للأنشطة التجارية والخدمية الباحثة عن النمو والاستقرار والموثوقية.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: تواصل معنا & Final CTA -->
+    <section id="contact" class="py-20 bg-gray-900 text-white relative">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row gap-12 justify-between">
+                
+                <!-- Contact Info -->
+                <div class="w-full lg:w-1/3 fade-up">
+                    <h3 class="text-3xl font-bold mb-6 text-white">تواصل معنا</h3>
+                    <p class="text-gray-400 mb-8">فريقنا جاهز للرد على استفساراتك وتقديم الدعم في أي وقت.</p>
+                    
+                    <div class="space-y-6">
+                        <a href="mailto:info@engaz-erp.site" class="flex items-center gap-4 text-gray-300 hover:text-white transition-colors group">
+                            <div class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-brand-400 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="text-right border-b border-transparent group-hover:border-brand-400 pb-1">
+                                <div class="text-xs text-gray-500 mb-1">البريد الإلكترونى</div>
+                                <div dir="ltr" class="font-mono text-lg">info@engaz-erp.site</div>
+                            </div>
+                        </a>
+                        
+                        <a href="tel:01279180008" class="flex items-center gap-4 text-gray-300 hover:text-white transition-colors group">
+                            <div class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-brand-400 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div class="text-right border-b border-transparent group-hover:border-brand-400 pb-1">
+                                <div class="text-xs text-gray-500 mb-1">رقم الهاتف / واتساب</div>
+                                <div dir="ltr" class="font-mono text-lg">01279180008</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Final CTA Banner -->
+                <div class="w-full lg:w-2/3 fade-up" style="transition-delay: 0.2s;">
+                    <div class="bg-gradient-to-r from-brand-600 to-brand-800 rounded-3xl p-8 md:p-12 text-center md:text-right flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl relative overflow-hidden">
+                        <!-- Decorative shapes -->
+                        <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-white opacity-10 rounded-full blur-2xl"></div>
+                        <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-40 h-40 bg-black opacity-10 rounded-full blur-2xl"></div>
+                        
+                        <div class="relative z-10 w-full md:w-1/2">
+                            <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">جاهز تنظم شركتك وتتابع كل أرقامك؟</h3>
+                            <p class="text-brand-100 mb-6">اكتشف قوة إنجاز بنفسك بدون أي التزام.</p>
+                            
+                            <div class="bg-white/10 p-3 rounded-lg border border-white/20 inline-block text-right mb-6">
+                                <div class="text-xs text-brand-200 mb-1">بيانات التجربة:</div>
+                                <div class="flex gap-4 font-mono text-sm">
+                                    <span>المستخدم: <strong class="text-white bg-black/20 px-1 rounded">admin</strong></span>
+                                    <span>الباسورد: <strong class="text-white bg-black/20 px-1 rounded">123</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="relative z-10 w-full md:w-1/2 flex flex-col gap-4">
+                            <a href="https://www.engaz-erp.site" target="_blank" class="w-full bg-white text-brand-700 hover:bg-gray-100 font-bold py-4 px-6 rounded-xl text-center shadow-lg transition-transform transform hover:-translate-y-1">
+                                جرّب الآن مجانًا
+                            </a>
+                            <a href="https://www.youtube.com/@engaz-2026" target="_blank" class="w-full bg-transparent border-2 border-white/30 text-white hover:bg-white/10 font-bold py-4 px-6 rounded-xl text-center flex justify-center items-center gap-2 transition-colors">
+                                <i class="fas fa-play"></i> شاهد الفيديو
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-950 text-gray-400 py-12 border-t border-gray-800 text-sm">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-8 border-b border-gray-800 pb-8">
+                <!-- Footer Logo -->
+                <div class="flex items-center gap-3 grayscale hover:grayscale-0 transition-all opacity-80 hover:opacity-100">
+                    <img src="https://i.postimg.cc/nLYdWfJs/Whats-App-Image-2026-02-23-at-12-19-48-AM.jpg" alt="ENGAZ Logo" class="h-10 w-auto rounded">
+                    <span class="font-bold text-xl text-white">إنجاز | ENGAZ</span>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="flex flex-wrap justify-center gap-x-6 gap-y-2">
+                    <a href="#home" class="hover:text-white transition-colors">الرئيسية</a>
+                    <a href="#about" class="hover:text-white transition-colors">عن النظام</a>
+                    <a href="#modules" class="hover:text-white transition-colors">الموديولات</a>
+                    <a href="#pricing" class="hover:text-white transition-colors">الأسعار</a>
+                    <a href="#contact" class="hover:text-white transition-colors">اتصل بنا</a>
+                </div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-right">
+                <p>
+                    النظام من تطوير <strong class="text-white">شركة ويب ماكس للتكنولوجيا والتسويق الإلكتروني</strong>.
+                </p>
+                <p dir="ltr">
+                    &copy; 2026 ENGAZ | إنجاز — جميع الحقوق محفوظة.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // 1. Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const icon = btn.querySelector('i');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            menu.classList.toggle('hidden');
+            if(menu.classList.contains('hidden')) {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            }
+        }
+
+        btn.addEventListener('click', toggleMenu);
+
+        // Close menu on link click
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if(!menu.classList.contains('hidden')){
+                    toggleMenu();
+                }
+            });
+        });
+
+        // 2. Accordion Logic
+        function toggleAccordion(btn) {
+            const content = btn.nextElementSibling;
+            const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+            
+            // Close all others (optional - if you want only one open at a time)
+            document.querySelectorAll('.accordion-btn').forEach(otherBtn => {
+                if(otherBtn !== btn) {
+                    otherBtn.setAttribute('aria-expanded', 'false');
+                    otherBtn.nextElementSibling.classList.remove('open');
+                }
+            });
+
+            // Toggle current
+            btn.setAttribute('aria-expanded', !isExpanded);
+            if(!isExpanded) {
+                content.classList.add('open');
+            } else {
+                content.classList.remove('open');
+            }
+        }
+
+        // Open first accordion by default
+        document.addEventListener('DOMContentLoaded', () => {
+            const firstBtn = document.querySelector('.accordion-btn');
+            if(firstBtn) toggleAccordion(firstBtn);
+        });
+
+        // 3. Copy to Clipboard logic
+        function copyToClipboard(text) {
+            // Create a temporary textarea to copy from
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            
+            try {
+                // Fallback for older browsers / iframes
+                document.execCommand('copy');
+                showToast();
+            } catch (err) {
+                console.error('Failed to copy text', err);
+            }
+            
+            document.body.removeChild(textarea);
+        }
+
+        function showToast() {
+            const toast = document.getElementById("toast");
+            toast.className = "show";
+            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+
+        // 4. Scroll Animation (Fade Up)
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Run once
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-up').forEach(element => {
+            observer.observe(element);
+        });
+
+        // 5. Sticky Nav Background on Scroll
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                header.classList.add('shadow-md');
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                header.classList.remove('shadow-md');
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+            }
+        });
+    </script>
+</body>
+</html>
